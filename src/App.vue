@@ -9,12 +9,17 @@ const review = reactive({
 })
 
 const stars = [1, 2, 3, 4, 5]
+const submit = () => {
+  console.log('submit!')
+}
 </script>
 
 <template>
-<form>
-  <div class="container pt-5 pb-5">
-    <h3 class="h3 pb-5">Пожалуйста оформите форму для отправки:</h3>
+<form
+ @submit.prevent.stop="submit"
+>
+  <div class="container pt-5 pb-4">
+    <h3 class="h3 pb-4">Форма для отправки</h3>
     <!-- поле ввода имени -->
     <input 
       type="text"
@@ -37,7 +42,13 @@ const stars = [1, 2, 3, 4, 5]
       class="form-check" 
      >
      <!-- конец поля для ввода текста -->
-  <input class="form-check-input" type="checkbox" :id="`star${star}`">
+  <input 
+    class="form-check-input" 
+    type="checkbox"
+    v-model="review.stars"
+    :true-value="star"
+    :id="`star${star}`"   
+    >
   <label class="form-check-label mb-3" :for="`star${star}`">
     {{ star }}
   </label>
@@ -60,6 +71,7 @@ const stars = [1, 2, 3, 4, 5]
           Советую
         </label>
       </div>
+      <button class="btn btn-primary mt-4">Отправить!</button>
   </div>
 </form>
 </template>
