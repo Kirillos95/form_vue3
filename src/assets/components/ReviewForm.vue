@@ -9,7 +9,7 @@ export default defineComponent({
 
     components: {
     UButton,
-    Uinput
+    Uinput,
 },
 
     setup() {
@@ -20,11 +20,13 @@ export default defineComponent({
        photo: null,
        isRecommended: true
   })
+  const stars = [1, 2, 3, 4, 5]
     const submit = () => {};
       axios.post('api/review', review, {
       headers: {
       'Content-Type': 'multipart/form-data'
       }
+      
     })
      .then((res)=>{
        console.log(res)
@@ -36,21 +38,11 @@ export default defineComponent({
        console.log('Конец')
      })
      return {
-        review, submit
+        review, submit, stars
      }
     }
 })
-// const previewFotoPath = computed(() => {     //превью фото
-//   if(review.photo) {
-//     return URL.createObjectURL(review.photo)
-//   } else return 'fuckOff'
-// })
 
-//   const stars = [1, 2, 3, 4, 5];
-//   const uploadFile = (e) => {   //загрузка фото 
-//   const [file] = e.target.files
-//   review.photo = file
-// }
 
 </script>
 <!--  Пошла верстка  -->
@@ -72,8 +64,6 @@ export default defineComponent({
        placeholder="Введите текст"    
        type="textarea"    
      /> 
-
-      
       <h4>Оценка</h4>
       <div
       v-for="star in stars"
@@ -91,16 +81,11 @@ export default defineComponent({
        >
          <label class="form-check-label mb-3" :for="`star${star}`">{{ star }}</label>
       </div>
-     <!-- поле загрузки фото -->
-      <div class="photos_load mb-3">
-         <label class="form-label">Фото</label>
-         <input
-          class="form-control"
-          type="file"
-          @change="uploadFile"
-         >
-         <img :src="previewFotoPath" class="w-50 mt-2">
-      </div>
+     <UFile
+       
+       v-model="review.photo"
+       label="Фото"
+     />
      <!-- советую / не советую -->
      <div class="form-check">
         <input
@@ -135,5 +120,4 @@ export default defineComponent({
  .form {
   background: linear-gradient(to bottom, blueviolet, white);
 }
-
 </style>

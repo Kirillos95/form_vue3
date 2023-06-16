@@ -1,7 +1,9 @@
 <script setup>
-import {defineProps} from 'vue'
+import {defineProps, defineEmits, watch, ref} from 'vue'
 
-defineProps({
+const emits = defineEmits(['update:modelValue'])
+
+const {modelValue} = defineProps({
     modelValue: String,
     placeholder: String,
     type: {
@@ -9,6 +11,11 @@ defineProps({
         default: 'text',
         validator: (val) =>  ['text', 'textarea'].includes(val)
     }
+})
+
+const value = ref(modelValue)
+watch(value, () => {
+    emits('update:modelValue', value)
 })
 </script>
 
@@ -19,13 +26,15 @@ defineProps({
       :type="type"
       :placeholder="placeholder"
       class="form-control mb-3"
+      v-model="value"
       >
       
       <textarea
       v-else
       rows="3"
       class="form-control mb-3"
-      placeholder="Введите текст"     
+      placeholder="Введите текст"   
+      v-model="value"  
     >     
     </textarea>
    </div>
