@@ -1,4 +1,5 @@
 о<script setup>
+import axios from 'axios'
 import { reactive, computed } from 'vue';
 const review = reactive({
   author: '',
@@ -9,12 +10,29 @@ const review = reactive({
 })
 
 const stars = [1, 2, 3, 4, 5]
+
 const submit = () => {}
-const uploadFile = (e) => {
+axios.post('api/review', review, {                 //чтобы работала отправка(начало)
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+})
+.then((res)=>{
+  console.log(res)
+})
+.catch((err) => {
+  console.log(err)
+})
+.finally(() => {
+  console.log('Конец')
+})                                               //чтобы работала отправка(конец)
+
+const uploadFile = (e) => {   //загрузка фото 
   const [file] = e.target.files
   review.photo = file
 }
-const previewFotoPath = computed(() => {
+
+const previewFotoPath = computed(() => {     //превью фото
   if(review.photo) {
     return URL.createObjectURL(review.photo)
   } else return 'fuck'
@@ -22,6 +40,7 @@ const previewFotoPath = computed(() => {
 </script>
 
 <template>
+  
 <form class="form"
  @submit.prevent.stop="submit"
 >
