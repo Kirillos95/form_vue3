@@ -1,65 +1,79 @@
-<script setup>
+<script>
 import axios from 'axios'
-import { reactive, computed } from 'vue';
+import { reactive, computed, defineComponent } from 'vue';
+import UButton from './UButton.vue'
+import Uinput from './global/Uinput.vue';
 
-const review = reactive({
-     author: '',
-     stars: null,
-     text: '',
-     photo: null,
-     isRecommended: true
+export default defineComponent({
+    name: 'ReviewForm',
+
+    components: {
+    UButton,
+    Uinput
+},
+
+    setup() {
+    const review = reactive({
+       author: '',
+       stars: null,
+       text: '',
+       photo: null,
+       isRecommended: true
   })
-
-  const submit = () => {};
-  axios.post('api/review', review, {
-    headers: {
+    const submit = () => {};
+      axios.post('api/review', review, {
+      headers: {
       'Content-Type': 'multipart/form-data'
+      }
+    })
+     .then((res)=>{
+       console.log(res)
+     })
+     .catch((err) => {
+       console.log(err)
+     })
+     .finally(() => {
+       console.log('Конец')
+     })
+     return {
+        review, submit
+     }
     }
-  })
-  .then((res)=>{
-    console.log(res)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  .finally(() => {
-    console.log('Конец')
-  })
-  const stars = [1, 2, 3, 4, 5];
-  const uploadFile = (e) => {   //загрузка фото 
-  const [file] = e.target.files
-  review.photo = file
-}
-
-const previewFotoPath = computed(() => {     //превью фото
-  if(review.photo) {
-    return URL.createObjectURL(review.photo)
-  } else return 'fuck'
 })
+// const previewFotoPath = computed(() => {     //превью фото
+//   if(review.photo) {
+//     return URL.createObjectURL(review.photo)
+//   } else return 'fuckOff'
+// })
 
-  
+//   const stars = [1, 2, 3, 4, 5];
+//   const uploadFile = (e) => {   //загрузка фото 
+//   const [file] = e.target.files
+//   review.photo = file
+// }
+
 </script>
+<!--  Пошла верстка  -->
 <template>
      <form class="form"
  @submit.prevent.stop="submit"
 >
   <div class="container pt-5 pb-4">
     <h3 class="h3 pb-4">Форма для отправки</h3>
+
     <!-- поле ввода имени -->
-    <input 
-      type="text"
-      v-model="review.author"
-      placeholder="Введите Bаше имя"
-      class="form-control mb-3"
-      >
-      <!-- поле для ввода текста -->
-    <textarea
-     v-model="review.text"
-     rows="3"
-     class="form-control mb-3"
-     placeholder="Введите текст"     
-      >     
-    </textarea>
+    <Uinput
+       v-model="review.author"
+       placeholder="Введите Bаше имя"
+     />  
+     <!-- поле для ввода текста -->
+    <Uinput 
+       v-model="review.text"
+       placeholder="Введите текст"    
+       type="textarea"    
+     /> 
+
+      
       <h4>Оценка</h4>
       <div
       v-for="star in stars"
@@ -112,7 +126,7 @@ const previewFotoPath = computed(() => {     //превью фото
           Советую
         </label>
       </div>
-      <button class="btn btn-primary mt-4">Отправить!</button>
+      <UButton>Писюн!</UButton>
   </div>
 </form>
 </template>

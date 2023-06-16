@@ -1,19 +1,15 @@
-<script>
+<script setup>
 import axios from 'axios'
-import { reactive, computed, defineComponent } from 'vue';
+import { reactive, computed } from 'vue';
 
-export default defineComponent({
-    name: 'ReviewForm',
-    components: {
-},
-setup() {
-    const review = reactive({
+const review = reactive({
      author: '',
      stars: null,
      text: '',
      photo: null,
      isRecommended: true
   })
+
   const submit = () => {};
   axios.post('api/review', review, {
     headers: {
@@ -40,14 +36,11 @@ const previewFotoPath = computed(() => {     //превью фото
     return URL.createObjectURL(review.photo)
   } else return 'fuck'
 })
-},
 
-})
+  
 </script>
-
- <!--   Пошла вёрстка . . . -->
 <template>
-    <form class="form"
+     <form class="form"
  @submit.prevent.stop="submit"
 >
   <div class="container pt-5 pb-4">
@@ -119,13 +112,11 @@ const previewFotoPath = computed(() => {     //превью фото
           Советую
         </label>
       </div>
-      <UButton/>
+      <button class="btn btn-primary mt-4">Отправить!</button>
   </div>
 </form>
 </template>
 <!--  Пошли стили -->
-
-
 <style scoped>
  .form {
   background: linear-gradient(to bottom, blueviolet, white);
