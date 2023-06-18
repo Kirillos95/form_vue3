@@ -111,7 +111,7 @@ export default defineComponent({
           Советую
         </label>
       </div>
-      <UButton>Писюн!</UButton>
+      <UButton>Отправить!</UButton>
   </div>
 </form>
 </template>
